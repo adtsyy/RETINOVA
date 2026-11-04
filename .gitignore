@@ -1,0 +1,5 @@
+
+backend/venv/
+backend/__pycache__/
+backend/best_retinova_glf.keras
+.env
