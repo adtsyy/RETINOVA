@@ -439,3 +439,636 @@ footer p {
     }
 
 }
+
+/* ==========================================
+   IDENTITAS PASIEN
+========================================== */
+
+.patient-section {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.patient-section h2 {
+    color: #17365d;
+    margin-bottom: 10px;
+}
+
+.patient-section p {
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+.patient-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.patient-form label {
+    font-weight: 600;
+    color: #334155;
+}
+
+.patient-form input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+}
+
+.patient-form input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+
+/* ==========================================
+   DASHBOARD RIWAYAT
+========================================== */
+
+.history-section {
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 14px;
+    margin: 30px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.history-header h2 {
+    color: #17365d;
+    margin-bottom: 8px;
+}
+
+.history-header p {
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+
+/* ==========================================
+   STATISTIK
+========================================== */
+
+.history-statistics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: #f1f5f9;
+    padding: 22px;
+    border-radius: 12px;
+    border-left: 4px solid #2563eb;
+}
+
+.stat-card span {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.stat-card h3 {
+    color: #17365d;
+    font-size: 30px;
+    margin-top: 10px;
+}
+
+
+/* ==========================================
+   PENCARIAN PASIEN
+========================================== */
+
+.history-search {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.history-search label {
+    font-weight: 600;
+    color: #334155;
+}
+
+.history-search input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.history-search input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+
+/* ==========================================
+   TABEL RIWAYAT
+========================================== */
+
+.history-table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+#historyTable {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+#historyTable th {
+    background: #17365d;
+    color: #ffffff;
+    padding: 14px;
+    text-align: left;
+    font-size: 14px;
+}
+
+#historyTable td {
+    padding: 14px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #334155;
+    font-size: 14px;
+}
+
+#historyTable tbody tr:hover {
+    background: #f8fafc;
+}
+
+#historyTable td[colspan="5"] {
+    text-align: center;
+    color: #64748b;
+    padding: 25px;
+}
+
+
+/* ==========================================
+   TOMBOL RIWAYAT
+========================================== */
+
+.history-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#clearHistoryButton {
+    background: #dc2626;
+    color: #ffffff;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#clearHistoryButton:hover {
+    background: #b91c1c;
+}
+
+.history-delete-button {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.history-delete-button:hover {
+    background: #fecaca;
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 600px) {
+
+    .history-section {
+        padding: 18px;
+    }
+
+    .history-statistics {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        padding: 18px;
+    }
+
+    .history-header h2 {
+        font-size: 20px;
+    }
+
+    .history-actions {
+        justify-content: stretch;
+    }
+
+    #clearHistoryButton {
+        width: 100%;
+    }
+
+}
+/* =====================================
+   DASHBOARD PRIORITAS PEMERIKSAAN
+===================================== */
+
+.priority-dashboard {
+    background: #ffffff;
+    padding: 25px;
+    margin: 30px 0;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+
+.priority-dashboard h2 {
+    color: #172554;
+    margin-bottom: 8px;
+}
+
+.priority-dashboard > p {
+    color: #64748b;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.priority-patient-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 18px;
+    margin-bottom: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.priority-patient-info h3 {
+    margin: 0 0 7px;
+    color: #172554;
+}
+
+.priority-patient-info p {
+    margin: 0 0 6px;
+    color: #475569;
+}
+
+.priority-patient-info small {
+    color: #64748b;
+}
+
+.priority-badge {
+    padding: 8px 13px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.priority-very-high {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.priority-high {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.priority-medium {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.priority-low {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.priority-routine {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.priority-unknown {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+@media (max-width: 600px) {
+
+    .priority-patient-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .priority-badge {
+        white-space: normal;
+    }
+
+}
+
+
+/* ==========================================
+   NAVIGASI TAB RETINOVA
+========================================== */
+
+.main-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 8px;
+    margin-bottom: 25px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+
+.tab-button {
+    border: none;
+    border-radius: 10px;
+    padding: 16px 12px;
+    background: transparent;
+    color: #64748b;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.tab-button span {
+    margin-right: 7px;
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+.tab-button:hover {
+    background: #eff6ff;
+    color: #1765ad;
+}
+
+.tab-button.active {
+    background: #1765ad;
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(23,101,173,0.2);
+}
+
+
+/* ==========================================
+   KONTEN TAB
+========================================== */
+
+.tab-panel {
+    display: none;
+    animation: tabFade 0.25s ease;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.tab-panel[hidden] {
+    display: none !important;
+}
+
+@keyframes tabFade {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==========================================
+   DASHBOARD PRIORITAS
+========================================== */
+
+.priority-dashboard {
+    background: #ffffff;
+    padding: 28px;
+    margin-bottom: 25px;
+    border-radius: 18px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 5px 20px rgba(15,23,42,0.04);
+}
+
+.priority-header h2 {
+    color: #123b70;
+    margin-bottom: 10px;
+}
+
+.priority-header p {
+    color: #64748b;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.priority-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.priority-summary-card {
+    padding: 20px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    border-left: 4px solid #2563eb;
+}
+
+.priority-summary-card span {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.priority-summary-card h3 {
+    color: #123b70;
+    font-size: 28px;
+    margin-top: 8px;
+}
+
+.priority-legend {
+    margin-bottom: 28px;
+}
+
+.priority-legend h3,
+.priority-list-header h3 {
+    color: #123b70;
+    margin-bottom: 15px;
+}
+
+.legend-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.priority-badge {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.priority-very-high {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.priority-high {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.priority-medium {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.priority-low {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.priority-routine {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.priority-unknown {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.priority-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.priority-list-header span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.priority-patient-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    margin-bottom: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.priority-patient-info h3 {
+    color: #123b70;
+    margin: 0 0 7px;
+}
+
+.priority-patient-info p {
+    color: #475569;
+    margin: 0 0 7px;
+}
+
+.priority-patient-info small {
+    color: #64748b;
+}
+
+.empty-priority {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.priority-note {
+    margin-top: 25px;
+    padding: 15px;
+    background: #eff6ff;
+    color: #475569;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+/* ==========================================
+   RESPONSIVE TAB
+========================================== */
+
+@media (max-width: 600px) {
+
+    .main-tabs {
+        gap: 5px;
+        padding: 5px;
+    }
+
+    .tab-button {
+        padding: 13px 5px;
+        font-size: 12px;
+    }
+
+    .tab-button span {
+        display: none;
+    }
+
+    .priority-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .priority-dashboard {
+        padding: 20px 16px;
+    }
+
+    .priority-patient-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .priority-list-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+}
+#imagePreview {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#imagePreview img {
+    max-width: 100%;
+    max-height: 320px;
+    border-radius: 12px;
+    object-fit: contain;
+}

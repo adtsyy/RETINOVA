@@ -16,18 +16,38 @@ CORS(app)
 # 1. MEMUAT MODEL RETINOVA
 # ==================================
 
-MODEL_PATH = os.path.join(
+
+# ==================================
+# 1. MEMUAT MODEL RETINOVA
+# ==================================
+
+HF_REPO_ID = "adtsyy/retinova-model"
+HF_TOKEN = os.environ.get("HF_TOKEN")
+
+LOCAL_MODEL_PATH = os.path.join(
     os.path.dirname(__file__),
     "best_retinova_glf.keras"
 )
 
-NAMA_KELAS = [
-    "No DR",
-    "Mild NPDR",
-    "Moderate NPDR",
-    "Severe NPDR",
-    "Proliferative DR"
-]
+if os.path.exists(LOCAL_MODEL_PATH):
+    MODEL_PATH = LOCAL_MODEL_PATH
+    print("Menggunakan model lokal RETINOVA...")
+
+else:
+    print("Mengunduh model dari Hugging Face...")
+
+    if not HF_TOKEN:
+        raise RuntimeError(
+            "HF_TOKEN belum diatur pada environment."
+        )
+
+    from huggingface_hub import hf_hub_download
+
+    MODEL_PATH = hf_hub_download(
+        repo_id=HF_REPO_ID,
+        filename="best_retinova_glf.keras",
+        token=HF_TOKEN
+    )
 
 print("Memuat model RETINOVA...")
 
@@ -38,6 +58,7 @@ model = tf.keras.models.load_model(
 )
 
 print("Model RETINOVA berhasil dimuat!")
+
 
 
 # ==================================

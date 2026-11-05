@@ -10,109 +10,349 @@
 
 <body>
 
-    <!-- HEADER -->
     <header>
         <div class="logo">RETINOVA</div>
         <p>AI Retinal Screening System</p>
     </header>
 
-    <!-- HERO SECTION -->
     <section class="hero">
-        <h1>Diabetic Retinopathy Screening</h1>
+        <h1>RETINOVA</h1>
         <p>
-            Sistem screening citra retina berbasis Artificial Intelligence
-            untuk membantu mengidentifikasi tingkat retinopati diabetik.
+            Sistem screening dan triage Diabetic Retinopathy
+            berbasis Artificial Intelligence menggunakan citra retina.
         </p>
     </section>
 
-    <!-- MAIN CONTENT -->
     <main class="container">
 
-        <!-- UPLOAD SECTION -->
-        <section class="upload-card">
-            <h2>Unggah Citra Retina</h2>
-            <p>
-                Pilih gambar retina untuk memulai proses analisis.
-                Gunakan gambar dengan format JPG, JPEG, atau PNG.
-            </p>
+        <!-- NAVIGASI TAB -->
+        <nav class="main-tabs" aria-label="Navigasi utama">
 
-            <input
-                type="file"
-                id="imageInput"
-                accept="image/jpeg, image/png"
-            >
+            <button class="tab-button active"
+                    data-tab="pemeriksaan"
+                    type="button">
+                <span>01</span> Pemeriksaan
+            </button>
 
-            <div id="imagePreview"></div>
+            <button class="tab-button"
+                    data-tab="riwayat"
+                    type="button">
+                <span>02</span> Riwayat
+            </button>
 
-            <div class="action-buttons">
-    <button id="analyzeButton" type="button">
-        Analisis Gambar
-    </button>
+            <button class="tab-button"
+                    data-tab="prioritas"
+                    type="button">
+                <span>03</span> Prioritas
+            </button>
 
-    <button id="resetButton" type="button" disabled>
-        Reset / Analisis Ulang
-    </button>
-</div>
-        </section>
-
-        <!-- RESULT SECTION -->
-        <section class="result-card">
-            <h2>Hasil Analisis</h2>
-
-            <p id="prediction">
-                Belum ada gambar yang dianalisis.
-            </p>
-
-            
-<!-- TRIAGE SECTION -->
-<div class="triage-card" id="triageCard">
-
-    <h3>Triage & Prioritas Tindak Lanjut</h3>
-
-    <div class="triage-content">
-        <span class="triage-label">Prioritas Tindak Lanjut</span>
-
-        <h4 id="triagePriority">Belum tersedia</h4>
-
-        <p id="triageDescription">
-            Prioritas tindak lanjut akan ditampilkan setelah
-            gambar retina selesai dianalisis.
-        </p>
-    </div>
-
-</div>
+        </nav>
 
 
-            <div class="image-results">
-                <div>
-                    <h3>Gambar Retina Asli</h3>
-                    <img id="originalImage" alt="Gambar retina asli">
+        <!-- ================================= -->
+        <!-- TAB 1: PEMERIKSAAN -->
+        <!-- ================================= -->
+
+        <section class="tab-panel active" id="pemeriksaan">
+
+            <section class="patient-section">
+
+                <h2>Identitas Pasien</h2>
+                <p>Masukkan nama atau kode pasien sebelum pemeriksaan.</p>
+
+                <div class="patient-form">
+                    <label for="patientName">Nama atau Kode Pasien</label>
+
+                    <input
+                        type="text"
+                        id="patientName"
+                        placeholder="Contoh: Pasien-001"
+                        autocomplete="off"
+                        required
+                    >
                 </div>
 
-                <div>
-                    <h3>Visualisasi Grad-CAM</h3>
-                    <img id="gradcamImage" alt="Visualisasi Grad-CAM">
+            </section>
+
+
+            <section class="upload-card">
+
+                <h2>Unggah Citra Retina</h2>
+
+                <p>
+                    Pilih gambar retina untuk memulai proses analisis.
+                    Format yang didukung JPG, JPEG, atau PNG.
+                </p>
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/jpeg,image/png"
+                >
+
+                <div id="imagePreview"></div>
+
+                <div class="action-buttons">
+
+                    <button id="analyzeButton" type="button">
+                        Analisis Gambar
+                    </button>
+
+                    <button id="resetButton" type="button" disabled>
+                        Reset / Analisis Ulang
+                    </button>
+
                 </div>
-            </div>
+
+            </section>
+
+
+            <section class="result-card">
+
+                <h2>Hasil Analisis</h2>
+
+                <p id="prediction">
+                    Belum ada gambar yang dianalisis.
+                </p>
+
+                <div class="triage-card" id="triageCard">
+
+                    <h3>Triage & Prioritas Tindak Lanjut</h3>
+
+                    <div class="triage-content">
+
+                        <span class="triage-label">
+                            Prioritas Tindak Lanjut
+                        </span>
+
+                        <h4 id="triagePriority">Belum tersedia</h4>
+
+                        <p id="triageDescription">
+                            Prioritas tindak lanjut akan ditampilkan
+                            setelah gambar retina selesai dianalisis.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="image-results">
+
+                    <div>
+                        <h3>Gambar Retina Asli</h3>
+                        <img id="originalImage" alt="Gambar retina asli">
+                    </div>
+
+                    <div>
+                        <h3>Visualisasi Grad-CAM</h3>
+                        <img id="gradcamImage" alt="Visualisasi Grad-CAM">
+                    </div>
+
+                </div>
+
+            </section>
+
         </section>
+
+
+        <!-- ================================= -->
+        <!-- TAB 2: RIWAYAT -->
+        <!-- ================================= -->
+
+        <section class="tab-panel" id="riwayat" hidden>
+
+            <section class="history-section">
+
+                <div class="history-header">
+                    <h2>Riwayat Pemeriksaan</h2>
+                    <p>
+                        Seluruh riwayat screening pasien yang telah
+                        dilakukan melalui RETINOVA.
+                    </p>
+                </div>
+
+
+                <div class="history-statistics">
+
+                    <div class="stat-card">
+                        <span>Total Pemeriksaan</span>
+                        <h3 id="totalExaminations">0</h3>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>Pasien Tercatat</span>
+                        <h3 id="totalPatients">0</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="history-search">
+
+                    <label for="searchPatient">
+                        Cari Riwayat Pasien
+                    </label>
+
+                    <input
+                        type="text"
+                        id="searchPatient"
+                        placeholder="Cari nama atau kode pasien..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <div class="history-table-container">
+
+                    <table id="historyTable">
+
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama Pasien</th>
+                                <th>Tanggal Pemeriksaan</th>
+                                <th>Hasil Screening</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="historyBody">
+                            <tr>
+                                <td colspan="5">
+                                    Belum ada riwayat pemeriksaan.
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <div class="history-actions">
+                    <button type="button" id="clearHistoryButton">
+                        Hapus Semua Riwayat
+                    </button>
+                </div>
+
+            </section>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- TAB 3: PRIORITAS -->
+        <!-- ================================= -->
+
+        <section class="tab-panel" id="prioritas" hidden>
+
+            <section class="priority-dashboard">
+
+                <div class="priority-header">
+                    <h2>Dashboard Prioritas Pemeriksaan</h2>
+
+                    <p>
+                        Menampilkan hasil pemeriksaan terakhir setiap
+                        pasien berdasarkan tingkat prioritas.
+                    </p>
+                </div>
+
+
+                <div class="priority-summary">
+
+                    <div class="priority-summary-card">
+                        <span>Total Pasien</span>
+                        <h3 id="priorityTotalPatients">0</h3>
+                    </div>
+
+                    <div class="priority-summary-card">
+                        <span>Prioritas Tinggi</span>
+                        <h3 id="priorityHighPatients">0</h3>
+                    </div>
+
+                    <div class="priority-summary-card">
+                        <span>Pemantauan Rutin</span>
+                        <h3 id="priorityRoutinePatients">0</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="priority-legend">
+
+                    <h3>Kategori Prioritas</h3>
+
+                    <div class="legend-items">
+                        <span class="priority-badge priority-very-high">
+                            Sangat Tinggi
+                        </span>
+
+                        <span class="priority-badge priority-high">
+                            Tinggi
+                        </span>
+
+                        <span class="priority-badge priority-medium">
+                            Sedang
+                        </span>
+
+                        <span class="priority-badge priority-low">
+                            Rendah
+                        </span>
+
+                        <span class="priority-badge priority-routine">
+                            Pemantauan Rutin
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="priority-list-header">
+                    <h3>Daftar Pasien</h3>
+                    <span>Hasil pemeriksaan terbaru</span>
+                </div>
+
+                <div id="priorityPatientList">
+
+                    <p class="empty-priority">
+                        Belum ada data pemeriksaan pasien.
+                    </p>
+
+                </div>
+
+                <p class="priority-note">
+                    Kategori prioritas merupakan aturan pengelompokan
+                    pada prototipe penelitian dan bukan keputusan medis.
+                    Hasil screening perlu dikonfirmasi oleh tenaga medis
+                    profesional.
+                </p>
+
+            </section>
+
+        </section>
+
 
         <!-- DISCLAIMER -->
         <section class="disclaimer">
+
             <strong>Disclaimer</strong>
+
             <p>
-                RETINOVA merupakan prototipe penelitian untuk screening
-                retinopati diabetik. Hasil analisis AI bukan merupakan
-                diagnosis medis dan tidak menggantikan pemeriksaan
-                oleh tenaga medis profesional.
+                RETINOVA merupakan prototipe penelitian. Hasil analisis
+                AI bukan diagnosis medis dan tidak menggantikan
+                pemeriksaan oleh tenaga medis profesional.
             </p>
         </section>
 
     </main>
 
-    <!-- FOOTER -->
+
     <footer>
-        <p>© 2026 RETINOVA | AI-Based Retinal Screening Research Prototype</p>
+        <p>© 2026 RETINOVA | Tasya Dwi Anggraini</p>
     </footer>
+
 
     <script src="script.js"></script>
 
