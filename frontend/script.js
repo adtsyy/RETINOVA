@@ -6,6 +6,9 @@ let retinovaModel = null;
 
 async function loadRetinovaModel() {
     try {
+        await tf.setBackend("cpu");
+
+        console.log("Backend TensorFlow.js:", tf.getBackend());
         console.log("Memuat model RETINOVA...");
 
         retinovaModel = await tf.loadGraphModel(
