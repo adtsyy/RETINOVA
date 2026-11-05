@@ -1054,14 +1054,74 @@ analyzeButton.addEventListener("click", async function () {
 
         reader.readAsDataURL(selectedImage);
 
-        // Membuat Activation Heatmap
-        predictionElement.textContent =
-            hasilPrediksi + " — Membuat Activation Heatmap...";
+        // ==========================================
+// OPTIMASI MEMORI UNTUK ANDROID
+// ==========================================
 
-        await generateRetinovaActivationHeatmap(inputs, selectedImage );
+predictionElement.textContent =
+    hasilPrediksi + " — Menyiapkan Activation Heatmap...";
 
-        // Mengembalikan hasil prediksi
-        predictionElement.textContent = hasilPrediksi;
+if (/Android/i.test(navigator.userAgent)) {
+
+    console.log("Mode optimasi Android aktif.");
+
+    // 1. Bersihkan tensor hasil prediksi
+    if (output) {
+        output.dispose();
+        output = null;
+    }
+
+    // 2. Bersihkan tensor input
+    if (inputs) {
+        inputs.global.dispose();
+        inputs.local.dispose();
+        inputs = null;
+    }
+
+    // 3. Lepaskan model utama dari memori
+    if (retinovaModel) {
+        retinovaModel.dispose();
+        retinovaModel = null;
+        retinovaModelPromise = null;
+    }
+
+    // 4. Beri kesempatan browser memperbarui tampilan
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // 5. Preprocessing ulang khusus heatmap
+    let heatmapInputs = null;
+
+    try {
+
+        heatmapInputs = await preprocessingRetinova(selectedImage);
+
+        // 6. Buat Activation Heatmap
+        await generateRetinovaActivationHeatmap(
+            heatmapInputs,
+            selectedImage
+        );
+
+    } finally {
+
+        if (heatmapInputs) {
+            heatmapInputs.global.dispose();
+            heatmapInputs.local.dispose();
+        }
+
+    }
+
+} else {
+
+    // Laptop tetap menggunakan proses sebelumnya
+    await generateRetinovaActivationHeatmap(
+        inputs,
+        selectedImage
+    );
+
+}
+
+// Mengembalikan hasil prediksi
+predictionElement.textContent = hasilPrediksi;
 
         // Menyimpan riwayat
         const berhasilDisimpan = tambahRiwayat(
