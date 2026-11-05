@@ -18,6 +18,11 @@ async function loadRetinovaModel() {
         console.log("Model RETINOVA berhasil dimuat!");
         console.log("Input model:", retinovaModel.inputs);
         console.log("Output model:", retinovaModel.outputs);
+        console.log("Detail input model:");
+
+retinovaModel.inputs.forEach((input, index) => {
+    console.log(`Input ${index}:`, input);
+});
 
     } catch (error) {
         console.error("Gagal memuat model RETINOVA:", error);
