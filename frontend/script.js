@@ -1,13 +1,27 @@
+// ==================================
+// MEMUAT MODEL AI RETINOVA
+// ==================================
 
-// ==========================================
-// RETINOVA - AI RETINAL SCREENING SYSTEM
-// TAB: PEMERIKSAAN, RIWAYAT, PRIORITAS
-// ==========================================
+let retinovaModel = null;
 
+async function loadRetinovaModel() {
+    try {
+        console.log("Memuat model RETINOVA...");
 
-// ==========================================
-// 1. ELEMEN HTML
-// ==========================================
+        retinovaModel = await tf.loadGraphModel(
+            "./retinova_tfjs/model.json"
+        );
+
+        console.log("Model RETINOVA berhasil dimuat!");
+        console.log("Input model:", retinovaModel.inputs);
+        console.log("Output model:", retinovaModel.outputs);
+
+    } catch (error) {
+        console.error("Gagal memuat model RETINOVA:", error);
+    }
+}
+
+loadRetinovaModel();
 
 const imageInput = document.getElementById("imageInput");
 const imagePreview = document.getElementById("imagePreview");
