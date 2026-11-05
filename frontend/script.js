@@ -72,13 +72,109 @@ const priorityRoutinePatients =
 // ==========================================
 // 2. KONFIGURASI
 // ==========================================
+// ==========================================
+// PREPROCESSING GAMBAR RETINOVA
+// ==========================================
 
-const API_URL = "http://127.0.0.1:5000/predict";
+// ==========================================
+// PREPROCESSING GAMBAR RETINOVA
+// ==========================================
 
 const STORAGE_KEY = "retinova_examination_history";
 
 let selectedImage = null;
 
+const NAMA_KELAS = [
+    "No DR",
+    "Mild NPDR",
+    "Moderate NPDR",
+    "Severe NPDR",
+    "Proliferative DR"
+];
+
+async function preprocessingRetinova(file) {
+
+    const image = await createImageBitmap(file);
+
+    try {
+
+        return tf.tidy(() => {
+
+            // Membuat canvas 224 x 224 dengan padding
+            const canvas = document.createElement("canvas");
+            canvas.width = 224;
+            canvas.height = 224;
+
+            const ctx = canvas.getContext("2d");
+
+            // Padding hitam seperti resize_with_pad
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, 224, 224);
+
+            // Mempertahankan rasio gambar
+            const scale = Math.min(
+                224 / image.width,
+                224 / image.height
+            );
+
+            const newWidth = image.width * scale;
+            const newHeight = image.height * scale;
+
+            const offsetX = (224 - newWidth) / 2;
+            const offsetY = (224 - newHeight) / 2;
+
+            ctx.drawImage(
+                image,
+                offsetX,
+                offsetY,
+                newWidth,
+                newHeight
+            );
+
+            // Mengubah canvas menjadi tensor RGB
+            const globalImage = tf.browser.fromPixels(canvas);
+
+            // Crop tengah 160 x 160
+            const localCrop = tf.slice(
+                globalImage,
+                [32, 32, 0],
+                [160, 160, 3]
+            );
+
+            // Resize lokal menjadi 224 x 224
+            const localImage = tf.image.resizeBilinear(
+                localCrop,
+                [224, 224],
+                false
+            );
+
+            // Normalisasi MobileNetV2
+            const globalInput = globalImage
+                .toFloat()
+                .div(127.5)
+                .sub(1)
+                .expandDims(0);
+
+            const localInput = localImage
+                .toFloat()
+                .div(127.5)
+                .sub(1)
+                .expandDims(0);
+
+            return {
+                global: globalInput,
+                local: localInput
+            };
+
+        });
+
+    } finally {
+
+        image.close();
+
+    }
+
+}
 
 // ==========================================
 // 3. NAVIGASI TAB
@@ -836,45 +932,62 @@ analyzeButton.addEventListener("click", async function () {
 
     try {
 
-        const formData = new FormData();
+        // Memastikan model AI sudah dimuat
+if (!retinovaModel) {
+    throw new Error("Model RETINOVA belum siap. Silakan tunggu beberapa saat.");
+}
 
-        formData.append("file", selectedImage);
+// Preprocessing gambar
+const inputs = await preprocessingRetinova(selectedImage);
 
+let output;
 
-        const response = await fetch(API_URL, {
+try {
 
-            method: "POST",
+    // Prediksi menggunakan dua input model
+    output = retinovaModel.predict([
+        inputs.global,
+        inputs.local
+    ]);
 
-            body: formData
+    // Mengambil hasil prediksi
+    const prediksi = await output.data();
 
-        });
+    // Menentukan indeks kelas dengan nilai tertinggi
+    const indeksPrediksi = prediksi.indexOf(
+        Math.max(...prediksi)
+    );
 
+    // Mengambil nama kelas
+    var hasilPrediksi = NAMA_KELAS[indeksPrediksi];
 
-        const result = await response.json();
+    if (!hasilPrediksi) {
+        throw new Error("Kelas hasil prediksi tidak dikenali.");
+    }
 
+} finally {
 
-        if (!response.ok) {
+    // Membersihkan tensor agar tidak membebani memori
+    inputs.global.dispose();
+    inputs.local.dispose();
 
-            throw new Error(
-                result.message || "Analisis gambar gagal."
-            );
-
+    if (output) {
+        if (Array.isArray(output)) {
+            output.forEach(tensor => tensor.dispose());
+        } else {
+            output.dispose();
         }
+    }
 
-
-        if (!result.prediction) {
-
-            throw new Error("Hasil prediksi tidak tersedia.");
-
-        }
+}
 
 
         // Menampilkan hasil prediksi
-        predictionElement.textContent = result.prediction;
+predictionElement.textContent = hasilPrediksi;
 
 
-        // Menampilkan triage
-        tampilkanTriage(result.prediction);
+// Menampilkan triage
+tampilkanTriage(hasilPrediksi);
 
 
         // Menampilkan gambar retina asli
@@ -891,28 +1004,16 @@ analyzeButton.addEventListener("click", async function () {
         reader.readAsDataURL(selectedImage);
 
 
-        // Menampilkan Grad-CAM
-        if (result.gradcam) {
-
-            gradcamImage.src =
-                "data:image/png;base64," + result.gradcam;
-
-            gradcamImage.style.display = "block";
-
-        } else {
-
-            gradcamImage.removeAttribute("src");
-
-            gradcamImage.style.display = "none";
-
-        }
+        // Grad-CAM belum tersedia pada inferensi TensorFlow.js
+gradcamImage.removeAttribute("src");
+gradcamImage.style.display = "none";
 
 
         // Menyimpan riwayat
         const berhasilDisimpan = tambahRiwayat(
-            namaPasien,
-            result.prediction
-        );
+    namaPasien,
+    hasilPrediksi
+);
 
 
         if (berhasilDisimpan) {
@@ -938,7 +1039,7 @@ analyzeButton.addEventListener("click", async function () {
 
         console.log("Nama pasien:", namaPasien);
 
-        console.log("Hasil screening:", result.prediction);
+        console.log("Hasil screening:", hasilPrediksi);
 
 
     } catch (error) {
